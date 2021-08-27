@@ -2,6 +2,7 @@
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>
+#include <glm/gtc/noise.hpp>
 #include <iostream>
 
 #include "FastNoiseLite.h"
@@ -9,7 +10,7 @@
 FastNoiseLite noise;
 
 void Chunk::create_mesh(){
-    noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
+    noise.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
     // vertices[0] = 0.0f;
     // vertices[1] = 0.0f;
     // vertices[2] = 0.0f;
@@ -112,16 +113,40 @@ void Chunk::create_mesh(){
 }
 
 glm::vec3 Chunk::add_vertex(float x, float z, unsigned int *index){
-    float vx = (x + this->x * 4);
-    float vy = noise.GetNoise((x + this->x * 4)*20, (z + this->z * 4)*20);
-    float vz = (z + this->z * 4);
+    // float vx = (x*2 + this->x * 8);
+    // float vz = (z*2 + this->z * 8);
+    float vx = x*2;
+    float vz = z*2;
+    float nx = x + this->x * 4;
+    float nz = z + this->z * 4;
+    // float e = 1 * noise.GetNoise(40 * nx, 40 * nz);
+    float e = 1 * noise.GetNoise(10 * nx, 10 * nz)
+            + .5 * noise.GetNoise(20 * nx, 20 * nz)
+            + .25 * noise.GetNoise(40 * nx, 40 * nz);
+    // float e = 1 * glm::perlin(glm::vec2(1 * nx, 1 * nz))
+    //         + 1 * glm::perlin(glm::vec2(2 * nx, 2 * nz))
+    //         + 1 * glm::perlin(glm::vec2(4 * nx, 4 * nz));
+    e /= (1. + .5 + .25);
+    // e = pow(e, .5);
+    e *= 10;
+    // printf("%f\n", noise.GetNoise(1 * nx, 1 * nz));
+
+    // float vy = 
+    // pow((noise.GetNoise((x + this->x * 4)*1, (z + this->z * 4)*1) +
+    // (1/2)*noise.GetNoise((x + this->x * 4)*2, (z + this->z * 4)*2) +
+    // (1/4)*noise.GetNoise((x + this->x * 4)*4, (z + this->z * 4)*4))/(1 + (1/2) + (1/4)), 1.5);
     vertices[(*index)++] = vx;
-    vertices[(*index)++] = vy;
+    vertices[(*index)++] = e;
     vertices[(*index)++] = vz;
-    return glm::vec3(vx, vy, vz);
+    return glm::vec3(vx, e, vz);
 }
 
 void Chunk::render(){
     glBindVertexArray(vao);
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glTranslatef(this->x * 8, 0, this->z * 8);
     glDrawArrays(GL_TRIANGLES, 0, 3 * 4*4 * 2);
+    glPopMatrix();
+    glMatrixMode(GL_PROJECTION);
 }

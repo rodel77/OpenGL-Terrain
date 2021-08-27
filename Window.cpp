@@ -6,7 +6,7 @@
 
 void Window::init(){
     SDL_Init(SDL_INIT_VIDEO);
-    if(SDL_CreateWindowAndRenderer(640, 480, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL, &window, &renderer)==-1){
+    if(SDL_CreateWindowAndRenderer(1280, 720, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL, &window, &renderer)==-1){
         printf("An error ocurred initializing window %s\n", SDL_GetError());
     }
 

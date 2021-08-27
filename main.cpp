@@ -14,7 +14,6 @@
 #include "Shader.h"
 #include "Chunk.h"
 #include "Camera.h"
-#include "RenderState.h"
 #include "Input.h"
 #include "World.h"
 #include "Utils.h"
@@ -42,8 +41,8 @@ int main(int arc, char *args[]){
 
     Shader program((char*) "assets/shaders/main.vert", (char*) "assets/shaders/main.frag");
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
+    // glMatrixMode(GL_PROJECTION);
+    // glLoadIdentity();
 
     float vertices[] = {
         0.5f, -0.5f, 0.5f,  // br
@@ -108,8 +107,10 @@ int main(int arc, char *args[]){
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-    float ratio = (float)640.0f/(float)480.0f;
-    glm::mat4 proj = glm::perspective(45.0f, ratio, 0.1f, 100.0f);
+    int w, h;
+    SDL_GetWindowSize(window.window, &w, &h);
+    float ratio = (float)w/(float)h;
+    glm::mat4 proj = glm::perspective(45.0f, ratio, 0.1f, 200.0f);
 
     glm::mat4 view = glm::mat4(1.0f);
     
@@ -119,7 +120,7 @@ int main(int arc, char *args[]){
     glEnable(GL_DEPTH_TEST);
 
     glShadeModel(GL_FLAT);
-    glEnable(GL_CULL_FACE);
+    // glEnable(GL_CULL_FACE);
 
     Chunk chunka(0, 0);
     chunka.create_mesh();
@@ -136,8 +137,6 @@ int main(int arc, char *args[]){
     Camera camera(glm::vec3(1.0f, 2.0f, 3.0f));
     // camera.pitch -=10;
     // camera.update();
-
-    RenderState render_state;
 
     unsigned int a, b = SDL_GetTicks(), SDL_GetTicks();
     double delta = 0;
@@ -181,7 +180,7 @@ int main(int arc, char *args[]){
                 window.resize();
                 int w, h;
                 SDL_GetWindowSize(window.window, &w, &h);
-                proj = glm::perspective(45.0f, (float)w/(float)h, 0.1f, 100.0f);
+                proj = glm::perspective(45.0f, (float)w/(float)h, 0.1f, 200.0f);
             }
 
             if(event.type==SDL_KEYDOWN) {
@@ -200,7 +199,7 @@ int main(int arc, char *args[]){
                 camera.fov += event.wheel.y * dt;
                 int w, h;
                 SDL_GetWindowSize(window.window, &w, &h);
-                proj = glm::perspective(camera.fov, (float)w/(float)h, 0.1f, 100.0f);
+                proj = glm::perspective(camera.fov, (float)w/(float)h, 0.1f, 200.0f);
             }
         }
 
@@ -265,7 +264,7 @@ int main(int arc, char *args[]){
         // if(!world.has_chunk(chunk_x, chunk_z)){
         //     world.queue_chunk(chunk_x, chunk_z);
         // }
-        world.render();
+        world.render(program);
 
         // model = glm::translate(model, glm::vec3(0.0f, 1.0f, 0.0f));
         // const *float a = glm::value_ptr(glm::translate(model, glm::vec3(0.0f, 1.0f, 0.0f))));

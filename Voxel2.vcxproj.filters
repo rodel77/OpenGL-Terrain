@@ -33,9 +33,6 @@
     <ClCompile Include="Chunk.cpp">
       <Filter>Archivos de recursos</Filter>
     </ClCompile>
-    <ClCompile Include="RenderState.cpp">
-      <Filter>Archivos de recursos</Filter>
-    </ClCompile>
     <ClCompile Include="World.cpp">
       <Filter>Archivos de recursos</Filter>
     </ClCompile>
@@ -57,9 +54,6 @@
       <Filter>Archivos de recursos</Filter>
     </ClInclude>
     <ClInclude Include="FastNoiseLite.h">
-      <Filter>Archivos de recursos</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderState.h">
       <Filter>Archivos de recursos</Filter>
     </ClInclude>
     <ClInclude Include="Input.h">

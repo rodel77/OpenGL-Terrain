@@ -146,7 +146,6 @@
     <ClCompile Include="Chunk.cpp" />
     <ClCompile Include="File.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="RenderState.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="World.cpp" />
@@ -157,7 +156,6 @@
     <ClInclude Include="File.h" />
     <ClInclude Include="FastNoiseLite.h" />
     <ClInclude Include="Input.h" />
-    <ClInclude Include="RenderState.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Window.h" />

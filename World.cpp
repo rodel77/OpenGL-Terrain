@@ -1,5 +1,8 @@
 #include "World.h"
 #include "Chunk.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 void World::queue_chunk(int x, int z){
     auto chunk = new Chunk(x, z);
@@ -13,8 +16,10 @@ void World::queue_chunk(int x, int z){
     // chunks[position] = NULL;
 }
 
-void World::render(){
+void World::render(Shader &program){
     for(auto const& pair : chunks){
+        auto transform = glm::translate(glm::mat4(1.0f), glm::vec3(pair.second->x * 8, 0, pair.second->z * 8));
+        program.set_uniform_m4f("model", glm::value_ptr(transform));
         pair.second->render();
     }
 }

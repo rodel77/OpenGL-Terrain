@@ -7,11 +7,12 @@
 #include <glm/glm.hpp>
 #include "Chunk.h"
 #include "Utils.h"
+#include "Shader.h"
 
 class World {
     public:
         void queue_chunk(int x, int z);
-        void render();
+        void render(Shader &program);
         bool has_chunk(int x, int z);
         std::map<std::pair<int, int>, Chunk*> chunks;
     private:
