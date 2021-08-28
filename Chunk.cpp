@@ -8,9 +8,19 @@
 #include "FastNoiseLite.h"
 
 FastNoiseLite noise;
+FastNoiseLite biome_noise;
 
 void Chunk::create_mesh(){
     noise.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
+    biome_noise.SetNoiseType(FastNoiseLite::NoiseType_Cellular);
+    biome_noise.SetCellularDistanceFunction(FastNoiseLite::CellularDistanceFunction_Hybrid);
+    biome_noise.SetCellularReturnType(FastNoiseLite::CellularReturnType_CellValue);
+
+    float VertexData[size * size * 2 * 3];
+
+    float vertices[size * size * 2 * 3 * 3];
+    float normals[size * size * 2 * 3 * 3];
+    float colors[size * size * 2 * 3 * 3];
     // vertices[0] = 0.0f;
     // vertices[1] = 0.0f;
     // vertices[2] = 0.0f;
@@ -35,12 +45,16 @@ void Chunk::create_mesh(){
 
     unsigned int index = 0;
     unsigned int normalid = 0;
+    unsigned int colorid = 0;
     for(int i = 0; i < (size)*(size); i++){
         float x = i%4;
         float z = (int)((float)i/4);
-        glm::vec3 a = add_vertex(x+1, z, &index);
-        glm::vec3 b = add_vertex(x, z, &index);
-        glm::vec3 c = add_vertex(x, z+1, &index);
+        glm::vec3 color1, color2, color3, color;
+        // glm::vec3 color(1.0);
+        // color = glm::vec3(1.0, 0.0 ,0.0);
+        glm::vec3 a = add_vertex(vertices, x+1, z, &index, color1);
+        glm::vec3 b = add_vertex(vertices, x, z, &index, color2);
+        glm::vec3 c = add_vertex(vertices, x, z+1, &index, color3);
         glm::vec3 normal = glm::normalize(glm::cross(b - a, c - a));
         normals[normalid++] = normal.x;
         normals[normalid++] = normal.y;
@@ -51,11 +65,23 @@ void Chunk::create_mesh(){
         normals[normalid++] = normal.x;
         normals[normalid++] = normal.y;
         normals[normalid++] = normal.z;
+        // color = color1;
+        color = color1;
+        // else color = color2;
+        colors[colorid++] = color.x;
+        colors[colorid++] = color.y;
+        colors[colorid++] = color.z;
+        colors[colorid++] = color.x;
+        colors[colorid++] = color.y;
+        colors[colorid++] = color.z;
+        colors[colorid++] = color.x;
+        colors[colorid++] = color.y;
+        colors[colorid++] = color.z;
 
 
-        a = add_vertex(x, z+1, &index);
-        b = add_vertex(x+1, z+1, &index);
-        c = add_vertex(x+1, z, &index);
+        a = add_vertex(vertices, x, z+1, &index, color1);
+        b = add_vertex(vertices, x+1, z+1, &index, color2);
+        c = add_vertex(vertices, x+1, z, &index, color3);
         normal = glm::normalize(glm::cross(b - a, c - a));
         normals[normalid++] = normal.x;
         normals[normalid++] = normal.y;
@@ -66,6 +92,17 @@ void Chunk::create_mesh(){
         normals[normalid++] = normal.x;
         normals[normalid++] = normal.y;
         normals[normalid++] = normal.z;
+        // color = color1;
+        // else color = color2;
+        colors[colorid++] = color.x;
+        colors[colorid++] = color.y;
+        colors[colorid++] = color.z;
+        colors[colorid++] = color.x;
+        colors[colorid++] = color.y;
+        colors[colorid++] = color.z;
+        colors[colorid++] = color.x;
+        colors[colorid++] = color.y;
+        colors[colorid++] = color.z;
         // printf("%i %i\n", size * size * 2 * 3 * 3 * 2, index);
         // vertices[index++] = x+1;
         // vertices[index++] = noise.GetNoise((x+(4*this->x)+1)*10, (z+(4*this->z))*10);
@@ -110,9 +147,20 @@ void Chunk::create_mesh(){
 
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*) 0);
     glEnableVertexAttribArray(1);
+
+
+    glGenBuffers(1, &color_buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, color_buffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*) 0);
+    glEnableVertexAttribArray(2);
+
+// printf("%i\n", sizeof(color));
+    // free(color);
 }
 
-glm::vec3 Chunk::add_vertex(float x, float z, unsigned int *index){
+glm::vec3 Chunk::add_vertex(float vertices[], float x, float z, unsigned int *index, glm::vec3 &color){
     // float vx = (x*2 + this->x * 8);
     // float vz = (z*2 + this->z * 8);
     float vx = x*2;
@@ -129,6 +177,14 @@ glm::vec3 Chunk::add_vertex(float x, float z, unsigned int *index){
     e /= (1. + .5 + .25);
     // e = pow(e, .5);
     e *= 10;
+
+    if(biome_noise.GetNoise(nx, nz)>0) {
+        color = glm::vec3(0.3f, 0.7f, 0.3f);
+    }else{
+        color = glm::vec3(0.9f, 0.9f, 0.7f);
+    }
+
+
     // printf("%f\n", noise.GetNoise(1 * nx, 1 * nz));
 
     // float vy = 

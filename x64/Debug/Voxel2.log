@@ -1,2 +1,7 @@
-﻿  World.cpp
+﻿  Chunk.cpp
+C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\Chunk.cpp(48,17): warning C4244:  'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\Chunk.cpp(49,17): warning C4244:  'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\Chunk.cpp(169,13): warning C4244:  'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\Chunk.cpp(202,42): warning C4244:  'argumento': conversión de 'int' a 'GLfloat'; posible pérdida de datos
+C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\Chunk.cpp(202,26): warning C4244:  'argumento': conversión de 'int' a 'GLfloat'; posible pérdida de datos
   Voxel2.vcxproj -> C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\x64\Debug\Voxel2.exe

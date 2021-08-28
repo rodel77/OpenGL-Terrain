@@ -4,6 +4,7 @@ out vec4 fragment_color;
 in vec3 normal;
 in vec3 fragment_position;
 in vec2 texture_coords;
+in vec4 color;
 
 uniform vec3 light_direction;
 
@@ -20,11 +21,12 @@ void main(){
     vec3 norm = normalize(normal);
     //vec3 light_dir = normalize(light_position - fragment_position);
 
-    float diff = max(dot(norm, light_direction), 0.0);
-    vec3 diffuse = diff * vec3(0.3f, 0.7f, 0.3f);
+    float diff = max(dot(norm, light_direction), 0.0) * .8 + .2;
+    //vec3 diffuse = (diff * vec3(0.3f, 0.7f, 0.3f)) * .5 + .5;
+    vec3 diffuse = (diff) * vec3(color);
 
     float depth = LinearizeDepth(gl_FragCoord.z) / far; // divide by far for demonstration
-    fragment_color = vec4(diffuse + vec3(depth/2), 1.0f);
+    fragment_color = vec4(diffuse + vec3(depth/2) * .8, 1.0f);
     //fragment_color = vec4(vec3(1-depth), 1.0);
     //fragment_color = vec4(vec3(gl_FragCoord.z), 1.0);
 }
