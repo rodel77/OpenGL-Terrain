@@ -1,7 +1,22 @@
-﻿  Chunk.cpp
-C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\Chunk.cpp(48,17): warning C4244:  'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\Chunk.cpp(49,17): warning C4244:  'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\Chunk.cpp(169,13): warning C4244:  'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\Chunk.cpp(202,42): warning C4244:  'argumento': conversión de 'int' a 'GLfloat'; posible pérdida de datos
-C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\Chunk.cpp(202,26): warning C4244:  'argumento': conversión de 'int' a 'GLfloat'; posible pérdida de datos
+﻿  main.cpp
+C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\main.cpp(193,70): warning C4244:  '-=': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\main.cpp(194,68): warning C4244:  '+=': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\main.cpp(199,49): warning C4244:  '+=': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\main.cpp(207,51): warning C4244:  'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\main.cpp(210,52): warning C4244:  'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\main.cpp(213,51): warning C4244:  'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\main.cpp(216,52): warning C4244:  'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\main.cpp(219,48): warning C4244:  'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\main.cpp(222,49): warning C4244:  'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\main.cpp(243,21): warning C4244:  'inicializando': conversión de 'T' a 'int'; posible pérdida de datos
+C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\main.cpp(243,21): warning C4244:         with
+C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\main.cpp(243,21): warning C4244:         [
+C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\main.cpp(243,21): warning C4244:             T=float
+C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\main.cpp(243,21): warning C4244:         ]
+C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\main.cpp(244,21): warning C4244:  'inicializando': conversión de 'T' a 'int'; posible pérdida de datos
+C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\main.cpp(244,21): warning C4244:         with
+C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\main.cpp(244,21): warning C4244:         [
+C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\main.cpp(244,21): warning C4244:             T=float
+C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\main.cpp(244,21): warning C4244:         ]
+C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\Voxel2\main.cpp(189,17): warning C4060:  la instrucción switch no contiene etiquetas 'case' ni 'default'
   Voxel2.vcxproj -> C:\Users\Usuario\Desktop\misc_dev\CppTest21\Voxel2\x64\Debug\Voxel2.exe

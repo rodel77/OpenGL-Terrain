@@ -15,9 +15,6 @@ class Chunk{
             this->x = x;
             this->z = z;
         }
-        ~Chunk(){
-            printf("Destroying chunk!");
-        }
         const static int size = 4;
 
         // float vertices[size * size * 2 * 3 * 3];
@@ -29,7 +26,7 @@ class Chunk{
         void create_mesh();
         void render();
     private:
-        glm::vec3 add_vertex(float vertices[], float x, float z, unsigned int *index, glm::vec3 &color);
+        VertexData add_vertex(float x, float z);
 };
 
 #endif

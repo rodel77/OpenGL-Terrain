@@ -18,7 +18,7 @@
 #include "World.h"
 #include "Utils.h"
 
-double CAMERA_SPEED = 7;
+double CAMERA_SPEED = 20;
 
 Window window;
 Input input;
@@ -110,7 +110,7 @@ int main(int arc, char *args[]){
     int w, h;
     SDL_GetWindowSize(window.window, &w, &h);
     float ratio = (float)w/(float)h;
-    glm::mat4 proj = glm::perspective(45.0f, ratio, 0.1f, 200.0f);
+    glm::mat4 proj = glm::perspective(45.0f, ratio, 0.1f, 500.0f);
 
     glm::mat4 view = glm::mat4(1.0f);
     
@@ -180,7 +180,7 @@ int main(int arc, char *args[]){
                 window.resize();
                 int w, h;
                 SDL_GetWindowSize(window.window, &w, &h);
-                proj = glm::perspective(45.0f, (float)w/(float)h, 0.1f, 200.0f);
+                proj = glm::perspective(45.0f, (float)w/(float)h, 0.1f, 500.0f);
             }
 
             if(event.type==SDL_KEYDOWN) {
@@ -199,7 +199,7 @@ int main(int arc, char *args[]){
                 camera.fov += event.wheel.y * dt;
                 int w, h;
                 SDL_GetWindowSize(window.window, &w, &h);
-                proj = glm::perspective(camera.fov, (float)w/(float)h, 0.1f, 200.0f);
+                proj = glm::perspective(camera.fov, (float)w/(float)h, 0.1f, 500.0f);
             }
         }
 
@@ -245,10 +245,10 @@ int main(int arc, char *args[]){
         chunk_x >>= 2;
         chunk_z >>= 2;
 
-        for(int x = -16; x < 16; x++){
-            for(int z = -16; z < 16; z++){
+        for(int x = -32; x < 32; x++){
+            for(int z = -32; z < 32; z++){
                 if(!world.has_chunk(chunk_x+x, chunk_z+z)){
-                    world.queue_chunk(chunk_x+x, chunk_z+z);
+                    // world.queue_chunk(chunk_x+x, chunk_z+z);
                 }
             }
         }
