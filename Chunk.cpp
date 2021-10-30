@@ -7,6 +7,7 @@
 
 #include <malloc.h>
 
+#include "World.h"
 #include "FastNoiseLite.h"
 
 FastNoiseLite noise;
@@ -19,14 +20,14 @@ void Chunk::create_mesh(){
     biome_noise.SetCellularReturnType(FastNoiseLite::CellularReturnType_CellValue);
 
     // ChunkSize * Faces * Vertices
-    VertexData vertices[size * size * 2 * 3];
+    VertexData vertices[CHUNK_SIZE * CHUNK_SIZE * 2 * 3];
     // VertexData *vertices = (VertexData*) malloc(size * size * 2 * 3 * sizeof(VertexData));
 
     unsigned int vertex_id = 0;
     VertexData temp[6];
-    for(int i = 0; i < (size)*(size); i++){
-        float x = i%4;
-        float z = (int)((float)i/4);
+    for(int i = 0; i < (CHUNK_SIZE)*(CHUNK_SIZE); i++){
+        float x = i%CHUNK_SIZE;
+        float z = (int)((float)i/CHUNK_SIZE);
         temp[0] = add_vertex(x+1, z);
         temp[1] = add_vertex(x, z);
         temp[2] = add_vertex(x, z+1);
@@ -50,7 +51,7 @@ void Chunk::create_mesh(){
 
     glGenBuffers(1, &vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, size * size * 2 * 3 * sizeof(VertexData), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, CHUNK_SIZE * CHUNK_SIZE * 2 * 3 * sizeof(VertexData), vertices, GL_STATIC_DRAW);
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*) 0);
     glEnableVertexAttribArray(0);
@@ -58,13 +59,20 @@ void Chunk::create_mesh(){
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(6 * sizeof(float)));
     glEnableVertexAttribArray(2);
+
+    has_mesh = true;
 }
 
 VertexData Chunk::add_vertex(float x, float z){
-    float vx = x*2;
-    float vz = z*2;
-    float nx = x + this->x * 4;
-    float nz = z + this->z * 4;
+    float vx = x;
+    float vz = z;
+    // float nz = z + this->z * 256;
+    // float nx = x + this->x * 256;
+    // float nz = ((int)z>>2) + this->z * 64;
+    // float nx = ((int)x>>2) + this->x * 64;
+    float nx = x + this->x * CHUNK_SIZE;
+    float nz = z + this->z * CHUNK_SIZE;
+    // printf("%f %f\n", x, z);
     // float e = 1 * noise.GetNoise(10 * nx, 10 * nz)
     //         + .5 * noise.GetNoise(20 * nx, 20 * nz)
     //         + .25 * noise.GetNoise(40 * nx, 40 * nz);
@@ -99,5 +107,5 @@ VertexData Chunk::add_vertex(float x, float z){
 
 void Chunk::render(){
     glBindVertexArray(vao);
-    glDrawArrays(GL_TRIANGLES, 0, 3 * 4*4 * 2);
+    glDrawArrays(GL_TRIANGLES, 0, 3 * CHUNK_SIZE*CHUNK_SIZE * 2);
 }

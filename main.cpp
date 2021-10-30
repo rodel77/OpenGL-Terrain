@@ -18,7 +18,7 @@
 #include "World.h"
 #include "Utils.h"
 
-double CAMERA_SPEED = 20;
+double CAMERA_SPEED = 36;
 
 Window window;
 Input input;
@@ -122,17 +122,17 @@ int main(int arc, char *args[]){
     glShadeModel(GL_FLAT);
     // glEnable(GL_CULL_FACE);
 
-    Chunk chunka(0, 0);
-    chunka.create_mesh();
-    Chunk chunkb(1, 0);
-    chunkb.create_mesh();
-    Chunk chunkc(1, 1);
-    chunkc.create_mesh();
-    Chunk chunkd(0, 1);
-    chunkd.create_mesh();
+    // Chunk chunka(0, 0);
+    // chunka.create_mesh();
+    // Chunk chunkb(1, 0);
+    // chunkb.create_mesh();
+    // Chunk chunkc(1, 1);
+    // chunkc.create_mesh();
+    // Chunk chunkd(0, 1);
+    // chunkd.create_mesh();
 
     World world;
-    world.queue_chunk(0, 0);
+    // world.queue_chunk(0, 0);
 
     Camera camera(glm::vec3(1.0f, 2.0f, 3.0f));
     // camera.pitch -=10;
@@ -158,7 +158,7 @@ int main(int arc, char *args[]){
 
         if(SDL_GetTicks()-timer>1000){
             timer = SDL_GetTicks();
-            printf("FPS: %i\n", fps);
+            printf("FPS: %i %i\n", fps, world.chunks.size());
             fps = 0;
         }
 
@@ -191,6 +191,7 @@ int main(int arc, char *args[]){
 
             if(event.type==SDL_MOUSEMOTION && SDL_GetRelativeMouseMode()){
                 camera.pitch -= event.motion.yrel * dt * CAMERA_SPEED;
+                camera.pitch = max(min(camera.pitch, 80), -80);
                 camera.yaw += event.motion.xrel * dt * CAMERA_SPEED;
                 camera.update();
             }
@@ -242,13 +243,13 @@ int main(int arc, char *args[]){
         // auto asd = glm::vec3(view[3]);
         int chunk_x = camera.position.x;
         int chunk_z = camera.position.z;
-        chunk_x >>= 2;
-        chunk_z >>= 2;
+        chunk_x >>= 4;
+        chunk_z >>= 4;
 
-        for(int x = -32; x < 32; x++){
-            for(int z = -32; z < 32; z++){
+        for(int x = -4; x < 4; x++){
+            for(int z = -4; z < 4; z++){
                 if(!world.has_chunk(chunk_x+x, chunk_z+z)){
-                    // world.queue_chunk(chunk_x+x, chunk_z+z);
+                    world.queue_chunk(chunk_x+x, chunk_z+z);
                 }
             }
         }

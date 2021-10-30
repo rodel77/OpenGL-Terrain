@@ -3,6 +3,7 @@
 
 #include <glm/glm.hpp>
 
+
 struct VertexData {
     glm::vec3 position;
     glm::vec3 normal;
@@ -15,11 +16,11 @@ class Chunk{
             this->x = x;
             this->z = z;
         }
-        const static int size = 4;
 
         // float vertices[size * size * 2 * 3 * 3];
         // float normals[size * size * 2 * 3 * 3];
         // float color[size * size * 2 * 3 * 3];
+        bool has_mesh = false;
         unsigned int vao, vbo, normal_buffer, color_buffer;
         int x, z;
 
