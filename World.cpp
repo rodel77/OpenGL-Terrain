@@ -10,7 +10,9 @@ static int async(void *ptr){
     while(world->loaded){
         Chunk *chunk = NULL;
         while(world->chunk_queue.try_dequeue(chunk)){
-            chunk->create_mesh();
+            if(chunk->mesh_status==0){
+                chunk->create_mesh();
+            }
         }
     }
     return 0;
@@ -24,6 +26,8 @@ World::World(){
     // // chunk->create_mesh();
     // chunks[std::pair<int, int>(x, z)] = chunk;
     SDL_Thread *terrain_thread = SDL_CreateThread(async, "Generator", this);
+    // SDL_Thread *terrain_thread2 = SDL_CreateThread(async, "Generator2", this);
+    // SDL_Thread *terrain_thread3 = SDL_CreateThread(async, "Generator3", this);
     // SDL_CreateThread(async, "test", NULL);
 }
 

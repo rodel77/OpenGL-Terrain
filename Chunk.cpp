@@ -14,6 +14,8 @@ FastNoiseLite noise;
 FastNoiseLite biome_noise;
 
 void Chunk::create_mesh(){
+    mesh_status = 5;
+
     noise.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
     biome_noise.SetNoiseType(FastNoiseLite::NoiseType_Cellular);
     biome_noise.SetCellularDistanceFunction(FastNoiseLite::CellularDistanceFunction_Hybrid);
@@ -78,9 +80,12 @@ VertexData Chunk::add_vertex(float x, float z){
     //         + .25 * noise.GetNoise(40 * nx, 40 * nz);
     // e /= (1. + .5 + .25);
     // e *= 10;
-    float e = noise.GetNoise(nx, nz) * 50
-            + noise.GetNoise(20 * nx, 20 * nz)
-            + noise.GetNoise(40 * nx, 40 * nz);
+    float e = noise.GetNoise(nx, nz) * 40
+            // + noise.GetNoise(20 * nx, 20 * nz)
+            + noise.GetNoise(60 * nx, 60 * nz)
+            + noise.GetNoise(nx*.5, nz*.5) * 100;
+
+    // e += + noise.GetNoise(e*.4 * nx, e*.4 * nz);
 
     VertexData vertex_data;
     float biome = noise.GetNoise(nx, nz);
@@ -89,14 +94,17 @@ VertexData Chunk::add_vertex(float x, float z){
     }else{
         vertex_data.color = glm::vec3(0.9f, 0.9f, 0.7f);
     }
-    vertex_data.color = glm::vec3(0.3f, 0.7f, 0.3f);
+    float col = abs(noise.GetNoise(nx * 2, nz * 2) * .5) + .5;
+    vertex_data.color = glm::vec3(0.2f, col, 0.2f);
 
     if(e < -5){
         vertex_data.color = glm::vec3(.25f, .25f, 1.0f);
-        e = noise.GetNoise(nx * 20, nz * 20)*1.5 - 4;
-    }else if(e>10 && noise.GetNoise(nx, nz)>0.5){
-        e *= 2;
+        e = noise.GetNoise(nx * 10, nz * 10)*1.5 - 4;
+    }else if(e>40 && noise.GetNoise(nx * 10, nz * 10)>1-(e/40)){
+        // e *= 2;
         vertex_data.color = glm::vec3(.4f, .4f, .4f);
+    }else if(e<0 && noise.GetNoise(nx * 5, nz * 5)>e-2){
+        vertex_data.color = glm::vec3(.7f, .6f, .6f);
     }
 
     // e *= .5;
@@ -106,7 +114,7 @@ VertexData Chunk::add_vertex(float x, float z){
 }
 
 void Chunk::render(){
-    if(mesh_status==0) return;
+    if(mesh_status==0 || mesh_status==5) return;
     if(mesh_status==1) submit_mesh();
     glBindVertexArray(vao);
     glDrawArrays(GL_TRIANGLES, 0, 3 * CHUNK_SIZE*CHUNK_SIZE * 2);

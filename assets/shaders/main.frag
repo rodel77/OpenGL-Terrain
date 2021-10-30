@@ -26,7 +26,7 @@ void main(){
     vec3 diffuse = (diff) * vec3(color);
 
     float depth = LinearizeDepth(gl_FragCoord.z) / far; // divide by far for demonstration
-    fragment_color = vec4(diffuse + vec3(depth/2) * .8, 1.0f);
+    fragment_color = vec4(diffuse, 1.0f);
     //fragment_color = vec4(vec3(1-depth), 1.0);
     //fragment_color = vec4(vec3(gl_FragCoord.z), 1.0);
 }
