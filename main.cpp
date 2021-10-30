@@ -18,7 +18,8 @@
 #include "World.h"
 #include "Utils.h"
 
-double CAMERA_SPEED = 36;
+double CAMERA_SPEED = 600;
+double CAMERA_ROT_SPEED = 30;
 
 Window window;
 Input input;
@@ -110,7 +111,7 @@ int main(int arc, char *args[]){
     int w, h;
     SDL_GetWindowSize(window.window, &w, &h);
     float ratio = (float)w/(float)h;
-    glm::mat4 proj = glm::perspective(45.0f, ratio, 0.1f, 500.0f);
+    glm::mat4 proj = glm::perspective(45.0f, ratio, 0.1f, 1000.0f);
 
     glm::mat4 view = glm::mat4(1.0f);
     
@@ -158,7 +159,7 @@ int main(int arc, char *args[]){
 
         if(SDL_GetTicks()-timer>1000){
             timer = SDL_GetTicks();
-            printf("FPS: %i %i\n", fps, world.chunks.size());
+            printf("FPS: %i %i\n", fps, world.chunk_queue.size_approx());
             fps = 0;
         }
 
@@ -180,7 +181,7 @@ int main(int arc, char *args[]){
                 window.resize();
                 int w, h;
                 SDL_GetWindowSize(window.window, &w, &h);
-                proj = glm::perspective(45.0f, (float)w/(float)h, 0.1f, 500.0f);
+                proj = glm::perspective(45.0f, (float)w/(float)h, 0.1f, 1000.0f);
             }
 
             if(event.type==SDL_KEYDOWN) {
@@ -190,9 +191,9 @@ int main(int arc, char *args[]){
             }
 
             if(event.type==SDL_MOUSEMOTION && SDL_GetRelativeMouseMode()){
-                camera.pitch -= event.motion.yrel * dt * CAMERA_SPEED;
+                camera.pitch -= event.motion.yrel * dt * CAMERA_ROT_SPEED;
                 camera.pitch = max(min(camera.pitch, 80), -80);
-                camera.yaw += event.motion.xrel * dt * CAMERA_SPEED;
+                camera.yaw += event.motion.xrel * dt * CAMERA_ROT_SPEED;
                 camera.update();
             }
 
@@ -200,7 +201,7 @@ int main(int arc, char *args[]){
                 camera.fov += event.wheel.y * dt;
                 int w, h;
                 SDL_GetWindowSize(window.window, &w, &h);
-                proj = glm::perspective(camera.fov, (float)w/(float)h, 0.1f, 500.0f);
+                proj = glm::perspective(camera.fov, (float)w/(float)h, 0.1f, 1000.0f);
             }
         }
 
@@ -243,8 +244,8 @@ int main(int arc, char *args[]){
         // auto asd = glm::vec3(view[3]);
         int chunk_x = camera.position.x;
         int chunk_z = camera.position.z;
-        chunk_x >>= 4;
-        chunk_z >>= 4;
+        chunk_x >>= 6;
+        chunk_z >>= 6;
 
         for(int x = -4; x < 4; x++){
             for(int z = -4; z < 4; z++){

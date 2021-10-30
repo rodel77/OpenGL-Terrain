@@ -19,10 +19,6 @@ void Chunk::create_mesh(){
     biome_noise.SetCellularDistanceFunction(FastNoiseLite::CellularDistanceFunction_Hybrid);
     biome_noise.SetCellularReturnType(FastNoiseLite::CellularReturnType_CellValue);
 
-    // ChunkSize * Faces * Vertices
-    VertexData vertices[CHUNK_SIZE * CHUNK_SIZE * 2 * 3];
-    // VertexData *vertices = (VertexData*) malloc(size * size * 2 * 3 * sizeof(VertexData));
-
     unsigned int vertex_id = 0;
     VertexData temp[6];
     for(int i = 0; i < (CHUNK_SIZE)*(CHUNK_SIZE); i++){
@@ -46,6 +42,10 @@ void Chunk::create_mesh(){
         }
     }
 
+    mesh_status = 1;
+}
+
+void Chunk::submit_mesh(){
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
@@ -60,7 +60,7 @@ void Chunk::create_mesh(){
     glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(6 * sizeof(float)));
     glEnableVertexAttribArray(2);
 
-    has_mesh = true;
+    mesh_status = 2;
 }
 
 VertexData Chunk::add_vertex(float x, float z){
@@ -99,13 +99,15 @@ VertexData Chunk::add_vertex(float x, float z){
         vertex_data.color = glm::vec3(.4f, .4f, .4f);
     }
 
-    e *= .5;
-    
+    // e *= .5;
+
     vertex_data.position = glm::vec3(vx, e, vz);
     return vertex_data;
 }
 
 void Chunk::render(){
+    if(mesh_status==0) return;
+    if(mesh_status==1) submit_mesh();
     glBindVertexArray(vao);
     glDrawArrays(GL_TRIANGLES, 0, 3 * CHUNK_SIZE*CHUNK_SIZE * 2);
 }
